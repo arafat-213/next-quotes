@@ -3,25 +3,26 @@ import type { Metadata } from 'next'
 import NavigationBar from '@/components/Nav'
 
 export const metadata: Metadata = {
-	title: 'Quotocean',
-	description: 'Discover & Share Inspirational Quotes'
+  title: 'Quotocean',
+  description: 'Discover & Share Inspirational Quotes'
 }
 
 export default function RootLayout({
-	children
+  children
 }: {
-	children: React.ReactNode
+  children: React.ReactNode
 }) {
-	return (
-		<html lang='en'>
-			<body>
-				<div className='main'>
-					<div className='gradient' />
-				</div>
-				<main className='app'>
+  return (
+    <html lang='en'>
+      <body>
+        <div className='main'>
+          <div className='gradient' />
+        </div>
+        <main className='app'>
           <NavigationBar />
-          {children}</main>
-			</body>
-		</html>
-	)
+          {children}
+        </main>
+      </body>
+    </html>
+  )
 }
