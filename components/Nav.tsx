@@ -24,7 +24,7 @@ const NavigationBar = () => {
       <div className='hidden sm:flex'>
         {isLoggedIn ? (
           <div className='flex gap-3 md:gap-5'>
-            <Link href='/create-quote' className='black_btn'>
+            <Link href='/create' className='black_btn'>
               Create Quote
             </Link>
 
