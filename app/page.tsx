@@ -1,8 +1,9 @@
 import Feed from '@/components/Feed'
 
 export default async function Home() {
-  const data = await (await fetch('http://localhost:3000/api/quote')).json()
-  console.log('data', data)
+  const data = await fetch(`${process.env.HOSTNAME}/api/quote`, {
+    next: { revalidate: 10 }
+  })
   return (
     <section className='flex-center w-full flex-col'>
       <h1 className='head_text text-center'>

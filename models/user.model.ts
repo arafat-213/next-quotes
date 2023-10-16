@@ -6,10 +6,13 @@ const userSchema = new Schema({
         required: [true, 'Email is required!'],
         unique: [true, 'Email is already used!']
     },
-    username: {
+    displayName: {
         type: String,
         required: [true, 'Username is required!'],
-        match: [/^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/, "Username invald, it should contain 8-20 alphanumeric letters and be unique!"]
+    },
+    password: {
+        type: String,
+        required: [true, 'Password is required!'],
     },
     image: {
         type: String
