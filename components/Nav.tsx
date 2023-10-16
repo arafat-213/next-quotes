@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import {useRouter} from 'next/navigation'
 
 const NavigationBar = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false)
@@ -23,9 +24,11 @@ const NavigationBar = () => {
     verifyUser()
   }, [])
 
+  const router = useRouter()
   const onSignOut = async () => {
     const res = await axios.get('/api/users/logout')
     if (res.status === 200) { 
+      router.push('/')
       setIsLoggedIn(false)
     }
   }
