@@ -1,12 +1,34 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const NavigationBar = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
+  useEffect(() => {
+    const verifyUser = async () => {
+      try {
+        const res = await axios.get('/api/users/verify')
+        if (res.status === 200) {
+          setIsLoggedIn(true)
+        }
+      } catch (error) {
+        console.log(error)
+        setIsLoggedIn(false)
+      }
+    }
+    verifyUser()
+  }, [])
+
+  const onSignOut = async () => {
+    const res = await axios.get('/api/users/logout')
+    if (res.status === 200) { 
+      setIsLoggedIn(false)
+    }
+  }
   return (
     <nav className='flex-between mb-16 w-full pt-3'>
       <Link href='/' className='flex-center flex gap-2'>
@@ -28,7 +50,7 @@ const NavigationBar = () => {
               Create Quote
             </Link>
 
-            <button type='button' className='outline_btn'>
+            <button type='button' className='outline_btn' onClick={onSignOut}>
               Sign Out
             </button>
 
@@ -83,7 +105,7 @@ const NavigationBar = () => {
                 >
                   Create Prompt
                 </Link>
-                <button type='button' className='black_btn mt-5 w-full'>
+                <button type='button' className='black_btn mt-5 w-full' onClick={onSignOut}>
                   Sign Out
                 </button>
               </div>

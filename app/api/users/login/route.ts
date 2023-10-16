@@ -42,7 +42,6 @@ export async function POST(request: NextRequest) {
       expiresIn: '1d'
     })
 
-    request.user = user
     // send the token in a cookie
     const res = NextResponse.json({
       message: 'Login successful',
@@ -51,7 +50,6 @@ export async function POST(request: NextRequest) {
     })
 
     res.cookies.set('auth-token', token, { httpOnly: true })
-    res.cookies.set('user', JSON.stringify({...user.toObject(), password: null}), { httpOnly: true })
 
     return res
   } catch (error: any) {
