@@ -44,11 +44,11 @@ export async function POST(request: NextRequest) {
         message: 'Signup successful',
         success: true,
         token,
-        user: {...savedUser, password: null}
+        user: {...savedUser.toObject(), password: null}
       }, {status: 201})
   
       res.cookies.set('auth-token', token, { httpOnly: true })
-
+      res.cookies.set('user', JSON.stringify({...savedUser.toObject(), password: null}), { httpOnly: true })
       return res
   } catch (error: any) {
     console.log(error)
