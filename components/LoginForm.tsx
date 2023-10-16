@@ -19,8 +19,7 @@ const LoginForm = () => {
 
   const handleSubmit = async () => {
     try {
-      const res = await axios.post('/api/users/login', formData)
-      console.log(res)
+      await axios.post('/api/users/login', formData)
       router.push('/')
     } catch (error) {
       console.log(error)

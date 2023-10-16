@@ -7,7 +7,6 @@ import jwt from 'jsonwebtoken'
 export async function POST(request: NextRequest) {
   try {
     connect()
-    console.log('/api/users/register called')
     const reqBody = await request.json()
     const { email, password, displayName } = reqBody
     // check if the user exists
@@ -48,7 +47,6 @@ export async function POST(request: NextRequest) {
       }, {status: 201})
   
       res.cookies.set('auth-token', token, { httpOnly: true })
-      res.cookies.set('user', JSON.stringify({...savedUser.toObject(), password: null}), { httpOnly: true })
       return res
   } catch (error: any) {
     console.log(error)
