@@ -1,9 +1,9 @@
 import Feed from '@/components/Feed'
 
 export default async function Home() {
-  const data = await fetch(`${process.env.HOSTNAME}/api/quote`, {
-    next: { revalidate: 10 }
-  })
+  const data = await (await fetch(`${process.env.HOSTNAME}/api/quote`, {
+    cache: 'no-store'
+  })).json()
   return (
     <section className='flex-center w-full flex-col'>
       <h1 className='head_text text-center'>
@@ -18,7 +18,7 @@ export default async function Home() {
         Quotes pool for the world to discover, create and share Inspirational
         and Motivational quotes
       </p>
-      <Feed />
+      <Feed data={data.quotes}/>
     </section>
   )
 }

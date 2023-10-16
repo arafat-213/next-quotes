@@ -1,21 +1,20 @@
 import React from 'react'
 import QuoteCard from './QuoteCard'
 
-const QuotesList = () => {
+const QuotesList = ({ data }) => {
   return (
     <div className='quote_layout mt-16'>
-      <QuoteCard />
-      <QuoteCard />
-      <QuoteCard />
-      <QuoteCard />
-      <QuoteCard />
+      {data.map((quote) => (
+        <QuoteCard quote={quote} key={quote._id}/>
+      ))}
+      
     </div>
   )
 }
-const Feed = () => {
+const Feed = ({ data }) => {
   return (
     <section className='feed'>
-      <QuotesList />
+      <QuotesList data={data} />
     </section>
   )
 }

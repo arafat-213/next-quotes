@@ -1,11 +1,30 @@
 import Link from 'next/link'
-import React from 'react'
+import { cookies } from 'next/headers'
+import { getLoggedInUserFromToken } from '@/utils/auth.util'
+import { redirect } from 'next/navigation'
+import axios from 'axios'
 
 type FormProps = {
   type: String
-  onSubmit: () => Promise<void>
 }
-const QuoteForm = ({ type, onSubmit }: FormProps) => {
+const QuoteForm = ({ type }: FormProps) => {
+  const submitAction = async (formData: FormData) => {
+    'use server'
+    try {
+      const cookieStore = cookies()
+      const token = cookieStore?.get('auth-token')?.value || ''
+      const user = await getLoggedInUserFromToken(token)
+      await axios.post(`${process.env.HOSTNAME}/api/quote`, {
+        userId: user.id,
+        quote: formData.get('quote'),
+        tag: formData.get('tag')
+      })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      redirect('/')
+    }
+  }
   return (
     <section className='flex-start w-full max-w-full flex-col'>
       <h1 className='head_text blue_gradient text-left'>
@@ -17,7 +36,7 @@ const QuoteForm = ({ type, onSubmit }: FormProps) => {
       </p>
 
       <form
-        action={onSubmit}
+        action={submitAction}
         className='glassmorphism mt-10 flex w-full max-w-2xl flex-col gap-7'
       >
         <label>
@@ -27,26 +46,34 @@ const QuoteForm = ({ type, onSubmit }: FormProps) => {
           <textarea
             placeholder='Write your quote here'
             className='form_textarea'
+            name='quote'
           />
         </label>
 
         <label>
-          <span className='font-satoshi font-semibold text-base text-gray-700'>Quote Category{' '}
-            <span className='font-normal'>(#inspirational, #finance, #wisdom, #motivational)</span>
+          <span className='font-satoshi text-base font-semibold text-gray-700'>
+            Quote Category{' '}
+            <span className='font-normal'>
+              (#inspirational, #finance, #wisdom, #motivational)
+            </span>
           </span>
-          <input 
+          <input
             type='text'
             placeholder='#Tag'
             required
             className='form_input'
+            name='tag'
           />
         </label>
 
         <div className='flex-end mx-3 mb-5 gap-4'>
-          <Link href='/' className='text-gray-500 text-sm' > 
-          Cancel
+          <Link href='/' className='text-sm text-gray-500'>
+            Cancel
           </Link>
-          <button type='submit' className='px-5 py-1.5 text-sm bg-primary-orange rounded-full text-white'>
+          <button
+            type='submit'
+            className='rounded-full bg-primary-orange px-5 py-1.5 text-sm text-white'
+          >
             {type}
           </button>
         </div>
