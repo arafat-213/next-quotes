@@ -1,4 +1,4 @@
-import Form from '@/components/Form'
+import QuoteForm from '@/components/QuoteForm'
 import React from 'react'
 
 const CreateQuote = () => {
@@ -8,7 +8,7 @@ const CreateQuote = () => {
     }
     
     return (
-    <div><Form type='Create' onSubmit={submitAction}/></div>
+    <div><QuoteForm type='Create' onSubmit={submitAction}/></div>
   )
 }
 

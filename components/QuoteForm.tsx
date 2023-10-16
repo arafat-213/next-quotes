@@ -5,7 +5,7 @@ type FormProps = {
   type: String
   onSubmit: () => Promise<void>
 }
-const Form = ({ type, onSubmit }: FormProps) => {
+const QuoteForm = ({ type, onSubmit }: FormProps) => {
   return (
     <section className='flex-start w-full max-w-full flex-col'>
       <h1 className='head_text blue_gradient text-left'>
@@ -55,4 +55,4 @@ const Form = ({ type, onSubmit }: FormProps) => {
   )
 }
 
-export default Form
+export default QuoteForm

@@ -94,11 +94,11 @@
 
 /* Buttons */
 .black_btn {
-  @apply flex items-center justify-center rounded-full border border-black bg-black px-5 py-1.5 text-center font-inter text-sm text-white transition-all hover:bg-white hover:text-black;
+  @apply flex items-center justify-center rounded-full border border-black bg-black px-5 py-1.5 text-center font-inter text-sm text-white transition-all hover:bg-gray-600;
 }
 
 .outline_btn {
-  @apply flex items-center justify-center rounded-full border border-black bg-transparent px-5 py-1.5 text-center font-inter text-sm text-black transition-all hover:bg-black hover:text-white;
+  @apply flex items-center justify-center rounded-full border border-black bg-transparent px-5 py-1.5 text-center font-inter text-sm text-black transition-all hover:bg-gray-300;
 }
 
 .copy_btn {

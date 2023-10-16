@@ -5,7 +5,7 @@ import { useState } from 'react'
 
 const NavigationBar = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(true)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   return (
     <nav className='flex-between mb-16 w-full pt-3'>
@@ -43,9 +43,15 @@ const NavigationBar = () => {
             </Link>
           </div>
         ) : (
-          <button type='button' className='black_btn'>
+          <div className='flex gap-3'>
+
+          <Link href='/login' className='black_btn'>
             Sign in
-          </button>
+          </Link>
+          <Link href='/register' className='outline_btn'>
+          Sign up
+        </Link>
+        </div>
         )}
       </div>
 
