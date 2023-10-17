@@ -10,7 +10,7 @@ const Profile = async ({ name, desc, data }: ProfileProps) => {
       </h1>
       <p className='desc text-left'>{desc}</p>
       <div className='quote_layout mt-10'>
-        {data.map(quote => <QuoteCard quote={quote} key={quote._id}/>)}
+        {data.map(quote => <QuoteCard quote={quote} key={quote._id} isProfilePage={true}/>)}
       </div>
     </section>
   )

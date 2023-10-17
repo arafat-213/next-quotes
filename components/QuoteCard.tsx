@@ -5,8 +5,15 @@ import { MySession, Quote } from '@/typings'
 import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import QuoteActionButtons from './QuoteActionButtons'
 
-const QuoteCard = async ({ quote }: { quote: Quote }) => {
+const QuoteCard = async ({
+  quote,
+  isProfilePage = false
+}: {
+  quote: Quote
+  isProfilePage?: boolean
+}) => {
   const session: MySession | null = await getServerSession(authOptions)
   return (
     <div className='quote_card'>
@@ -43,6 +50,10 @@ const QuoteCard = async ({ quote }: { quote: Quote }) => {
       <p className='blue_gradient cursor-pointer font-inter text-sm'>
         {quote.tag}
       </p>
+
+      {isProfilePage && session?.user.id === quote.creator._id && (
+        <QuoteActionButtons quote={quote} />
+      )}
     </div>
   )
 }
