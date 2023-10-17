@@ -3,6 +3,8 @@ import { cookies } from 'next/headers'
 import { getLoggedInUserFromToken } from '@/utils/auth.util'
 import { redirect } from 'next/navigation'
 import axios from 'axios'
+import {getServerSession} from 'next-auth'
+import {authOptions} from '@/app/api/auth/[...nextauth]/route'
 
 type FormProps = {
   type: String
@@ -11,11 +13,10 @@ const QuoteForm = ({ type }: FormProps) => {
   const submitAction = async (formData: FormData) => {
     'use server'
     try {
-      const cookieStore = cookies()
-      const token = cookieStore?.get('auth-token')?.value || ''
-      const user = await getLoggedInUserFromToken(token)
+      // const cookieStore = cookies()
+      const session = await getServerSession(authOptions)
       await axios.post(`${process.env.HOSTNAME}/api/quote`, {
-        userId: user.id,
+        userId: session?.user?.id,
         quote: formData.get('quote'),
         tag: formData.get('tag')
       })

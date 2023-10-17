@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import NavigationBar from '@/components/Nav'
+import Provider from '@/components/Provider'
 
 export const metadata: Metadata = {
   title: 'Quotocean',
@@ -15,6 +16,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
+        <Provider>
         <div className='main'>
           <div className='gradient' />
         </div>
@@ -22,6 +24,7 @@ export default function RootLayout({
           <NavigationBar />
           {children}
         </main>
+        </Provider>
       </body>
     </html>
   )

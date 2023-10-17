@@ -2,13 +2,13 @@ import Image from 'next/image'
 import React from 'react'
 import CopyButton from './CopyButton'
 
-const QuoteCard = ({quote}) => {
+const QuoteCard = async ({quote}) => {
   return (
     <div className='quote_card'>
       <div className='flex items-start justify-between gap-5'>
         <div className='flex flex-1 cursor-pointer items-center justify-start gap-3'>
           <Image
-            src='/assets/images/logo.svg'
+            src={quote?.creator?.image}
             alt='user image'
             width={40}
             height={40}
