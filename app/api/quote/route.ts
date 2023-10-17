@@ -4,7 +4,7 @@ import {connect} from '@/utils/database.util'
 
 export const GET = async (req: NextRequest) => {
     try {
-        connect()
+        await connect()
         const quotes = await Quote.find({}).populate('creator')
         return NextResponse.json({quotes}, {status: 200})
     } catch (error) {
@@ -14,7 +14,7 @@ export const GET = async (req: NextRequest) => {
 
 export const POST = async (req: NextRequest) => {
     try {
-        connect()
+        await connect()
         const {userId, quote, tag} = await req.json()
 
         const newQuote = new Quote({creator: userId, quote, tag})

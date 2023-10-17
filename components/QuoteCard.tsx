@@ -1,13 +1,24 @@
 import Image from 'next/image'
 import React from 'react'
 import CopyButton from './CopyButton'
-import { Quote } from '@/typings'
+import { MySession, Quote } from '@/typings'
+import Link from 'next/link'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
-const QuoteCard = async ({quote}: {quote: Quote}) => {
+const QuoteCard = async ({ quote }: { quote: Quote }) => {
+  const session: MySession | null = await getServerSession(authOptions)
   return (
     <div className='quote_card'>
       <div className='flex items-start justify-between gap-5'>
-        <div className='flex flex-1 cursor-pointer items-center justify-start gap-3'>
+        <Link
+          className='flex flex-1 cursor-pointer items-center justify-start gap-3'
+          href={
+            session?.user.id === quote.creator._id
+              ? '/profile'
+              : `/profile/${quote?.creator._id}?name=${quote?.creator.displayName}`
+          }
+        >
           <Image
             src={quote.creator.image}
             alt='user image'
@@ -23,14 +34,12 @@ const QuoteCard = async ({quote}: {quote: Quote}) => {
               {quote.creator.email}
             </p>
           </div>
-        </div>
+        </Link>
         <div className='copy_btn'>
           <CopyButton />
         </div>
       </div>
-      <p className='my-4 mt-1 font-satoshi italic'>
-        {quote.quote}
-      </p>
+      <p className='my-4 mt-1 font-satoshi italic'>{quote.quote}</p>
       <p className='blue_gradient cursor-pointer font-inter text-sm'>
         {quote.tag}
       </p>

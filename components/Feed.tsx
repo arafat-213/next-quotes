@@ -1,5 +1,6 @@
 import React from 'react'
 import QuoteCard from './QuoteCard'
+import { Quote } from '@/typings'
 
 
 const QuotesList = async () => {

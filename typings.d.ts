@@ -9,6 +9,7 @@ export interface Quote{
     displayName: string
     email: string
     image: string
+    _id: string
   }
 }
 
@@ -30,4 +31,10 @@ export interface MyProfile extends Profile {
 export interface MyProviderProps {
     children: ReactNode
     session?: Session
+}
+
+export interface ProfileProps {
+  name: String
+  desc: String
+  data: Quote[]
 }
