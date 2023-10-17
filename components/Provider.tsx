@@ -1,10 +1,9 @@
 'use client'
 
-import { Session } from 'next-auth'
+import { MyProviderProps } from '@/typings'
 import { SessionProvider } from 'next-auth/react'
-import { ReactNode } from 'react'
 
-const Provider = ({ children, session }) => (
+const Provider = ({ children, session }: MyProviderProps) => (
   <SessionProvider session={session}>{children}</SessionProvider>
 )
 

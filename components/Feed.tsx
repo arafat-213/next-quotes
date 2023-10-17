@@ -1,20 +1,25 @@
 import React from 'react'
 import QuoteCard from './QuoteCard'
 
-const QuotesList = ({ data }) => {
+
+const QuotesList = async () => {
+  const data = await (await fetch(`${process.env.HOSTNAME}/api/quote`, {
+    cache: 'no-store'
+  })).json()
+
   return (
     <div className='quote_layout mt-16'>
-      {data?.map((quote) => (
+      {data?.quotes?.map((quote: Quote) => (
         <QuoteCard quote={quote} key={quote._id}/>
       ))}
       
     </div>
   )
 }
-const Feed = ({ data }) => {
+const Feed = () => {
   return (
     <section className='feed'>
-      <QuotesList data={data} />
+      <QuotesList />
     </section>
   )
 }

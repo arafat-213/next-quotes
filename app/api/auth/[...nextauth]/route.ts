@@ -1,4 +1,5 @@
 import UserModel from '@/models/user.model'
+import { MyProfile, MySession } from '@/typings'
 import { connect } from '@/utils/database.util'
 import NextAuth, { User, Account, Profile, Session, NextAuthOptions } from 'next-auth'
 import { AdapterUser } from 'next-auth/adapters'
@@ -12,7 +13,7 @@ export const authOptions: NextAuthOptions = {
     })
   ],
   callbacks: {
-    async session({ session }: { session: Session }) {
+    async session({ session }: { session: MySession }) {
       // store the user id from mongoDB to session
       const user = await UserModel.findOne({ email: session.user.email })
       session.user.id = user._id.toString()
@@ -26,7 +27,7 @@ export const authOptions: NextAuthOptions = {
     }: {
         user: User | AdapterUser;
         account: Account | null;
-        profile?: Profile | undefined;
+        profile: MyProfile;
     }): Promise<boolean> {
       try {
         await connect()
@@ -38,9 +39,9 @@ export const authOptions: NextAuthOptions = {
         console.log('profile', profile)
         if (!user) {
           await UserModel.create({
-            email: profile?.email,
-            displayName: profile?.name,
-            image: profile?.picture
+            email: profile.email,
+            displayName: profile.name,
+            image: profile.picture
           })
         }
 
