@@ -16,8 +16,8 @@ const CopyButton = () => {
     <Image
       src={isCopied ? '/assets/icons/tick.svg' : '/assets/icons/copy.svg'}
       alt='copy button'
-      width={12}
-      height={12}
+      width={25}
+      height={25}
       onClick={handleCopy}
     />
   )

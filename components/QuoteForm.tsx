@@ -16,7 +16,6 @@ const QuoteForm = ({ type, quote }: FormProps) => {
     try {
       const session = await getServerSession(authOptions)
       if (type === 'Edit' && quote) {
-        console.log('inside if')
         // update form
         await axios.patch(`${process.env.HOSTNAME}/api/quote/${quote?._id}`, {
           quote: formData.get('quote'),
@@ -24,7 +23,6 @@ const QuoteForm = ({ type, quote }: FormProps) => {
         })
       } else {
         //create form
-        console.log('inside else')
         await axios.post(`${process.env.HOSTNAME}/api/quote`, {
           userId: session?.user?.id,
           quote: formData.get('quote'),

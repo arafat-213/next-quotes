@@ -16,8 +16,8 @@ const QuoteCard = async ({
 }) => {
   const session: MySession | null = await getServerSession(authOptions)
   return (
-    <div className='quote_card'>
-      <div className='flex items-start justify-between gap-5'>
+    <div className='quote_card group'>
+      <div className='flex items-start justify-between gap-2'>
         <Link
           className='flex flex-1 cursor-pointer items-center justify-start gap-3'
           href={
@@ -42,7 +42,7 @@ const QuoteCard = async ({
             </p>
           </div>
         </Link>
-        <div className='copy_btn'>
+        <div className='copy_btn opacity-0 group-hover:opacity-100'>
           <CopyButton />
         </div>
       </div>
@@ -50,10 +50,11 @@ const QuoteCard = async ({
       <p className='blue_gradient cursor-pointer font-inter text-sm'>
         {quote.tag}
       </p>
-
-      {isProfilePage && session?.user.id === quote.creator._id && (
-        <QuoteActionButtons quote={quote} />
-      )}
+      <div className='opacity-0 group-hover:opacity-100'>
+        {isProfilePage && session?.user.id === quote.creator._id && (
+          <QuoteActionButtons quote={quote} />
+        )}
+      </div>
     </div>
   )
 }
