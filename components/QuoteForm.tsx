@@ -1,25 +1,36 @@
 import Link from 'next/link'
-import { cookies } from 'next/headers'
-import { getLoggedInUserFromToken } from '@/utils/auth.util'
 import { redirect } from 'next/navigation'
 import axios from 'axios'
-import {getServerSession} from 'next-auth'
-import {authOptions} from '@/app/api/auth/[...nextauth]/route'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { Quote } from '@/typings'
 
 type FormProps = {
   type: String
+  quote?: Quote
 }
-const QuoteForm = ({ type }: FormProps) => {
+
+const QuoteForm = ({ type, quote }: FormProps) => {
   const submitAction = async (formData: FormData) => {
     'use server'
     try {
-      // const cookieStore = cookies()
       const session = await getServerSession(authOptions)
-      await axios.post(`${process.env.HOSTNAME}/api/quote`, {
-        userId: session?.user?.id,
-        quote: formData.get('quote'),
-        tag: formData.get('tag')
-      })
+      if (type === 'Edit' && quote) {
+        console.log('inside if')
+        // update form
+        await axios.patch(`${process.env.HOSTNAME}/api/quote/${quote?._id}`, {
+          quote: formData.get('quote'),
+          tag: formData.get('tag')
+        })
+      } else {
+        //create form
+        console.log('inside else')
+        await axios.post(`${process.env.HOSTNAME}/api/quote`, {
+          userId: session?.user?.id,
+          quote: formData.get('quote'),
+          tag: formData.get('tag')
+        })
+      }
     } catch (error) {
       console.log(error)
     } finally {
@@ -48,6 +59,7 @@ const QuoteForm = ({ type }: FormProps) => {
             placeholder='Write your quote here'
             className='form_textarea'
             name='quote'
+            defaultValue={quote? quote.quote: ''}
           />
         </label>
 
@@ -64,6 +76,7 @@ const QuoteForm = ({ type }: FormProps) => {
             required
             className='form_input'
             name='tag'
+            defaultValue={quote ? quote.tag: ''}
           />
         </label>
 

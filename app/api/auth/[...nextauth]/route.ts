@@ -36,7 +36,6 @@ export const authOptions: NextAuthOptions = {
         const user = await UserModel.findOne({ email: profile.email })
 
         // create a new user document in mongodb if user does not exist
-        console.log('profile', profile)
         if (!user) {
           await UserModel.create({
             email: profile.email,

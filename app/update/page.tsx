@@ -1,15 +1,27 @@
-import Form from '@/components/Form'
-import React from 'react'
+import QuoteForm from '@/components/QuoteForm'
+import axios from 'axios' 
+import { redirect } from 'next/navigation'
 
-const Update = () => {
-    const submitAction = async () => {
-        'use server'
-        // TODO: Add a server action to handle the submit
+
+type Props = {
+    searchParams: { [key: string]: string };
+  };
+const UpdateQuote = async ({searchParams}: Props) => {
+    let quote = undefined
+    try {
+        const {data} = await axios.get(`${process.env.HOSTNAME}/api/quote/${searchParams.id}`)
+        quote = data.quote        
+        if (!quote) {
+            redirect('/')
+        }
+    } catch (error) {
+        console.log(error)
+        redirect('/')
     }
-    
+
     return (
-    <div><Form type='Edit' onSubmit={submitAction}/></div>
+    <div><QuoteForm type='Edit' quote={quote} /></div>
     )
 }
 
-export default Update
+export default UpdateQuote
