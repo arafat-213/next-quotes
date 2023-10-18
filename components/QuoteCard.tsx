@@ -57,7 +57,7 @@ const QuoteCard = async ({
         )}
       </div>
       <div className='mt-4'>
-      <QuoteInteractButtons />
+      <QuoteInteractButtons quoteId={quote._id} likes={quote?.likes}/>
       </div>
     </div>
   )

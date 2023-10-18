@@ -10,7 +10,8 @@ export interface Quote{
     email: string
     image: string
     _id: string
-  }
+  },
+  likes: [string]
 }
 
 export interface MySession extends Session {
