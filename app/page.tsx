@@ -1,4 +1,5 @@
 import Feed from '@/components/Feed'
+import TypedText from '@/components/TypedText'
 
 export default async function Home() {  
   return (
@@ -6,14 +7,13 @@ export default async function Home() {
       <h1 className='head_text text-center'>
         Discover & Share <br className='max-md:hidden' />
         <span className='orange_gradient text-center'>
-          {/* TODO: Add Typed.JS for this span */}
-          Inspirational Quotes
+            <TypedText />
+            Quotes
         </span>
       </h1>
       <p className='desc text-center'>
         <span className='font-semibold'>QuotOcean</span> is an open source
-        Quotes pool for the world to discover, create and share Inspirational
-        and Motivational quotes
+        Quotes pool for the world to explore, create, and share amazing quotes
       </p>
       <Feed/>
     </section>
