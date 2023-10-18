@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import QuoteActionButtons from './QuoteActionButtons'
+import QuoteInteractButtons from './QuoteInteractButtons'
 
 const QuoteCard = async ({
   quote,
@@ -54,6 +55,9 @@ const QuoteCard = async ({
         {isProfilePage && session?.user.id === quote.creator._id && (
           <QuoteActionButtons quote={quote} />
         )}
+      </div>
+      <div className='mt-4'>
+      <QuoteInteractButtons />
       </div>
     </div>
   )
