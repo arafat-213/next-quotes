@@ -37,6 +37,10 @@ const NavigationBar = () => {
       <div className='hidden sm:flex'>
         {session?.user ? (
           <div className='flex gap-3 md:gap-5'>
+             <Link href='/bookmarks' className='black_btn'>
+              Bookmarks
+            </Link>
+
             <Link href='/create' className='black_btn'>
               Create Quote
             </Link>

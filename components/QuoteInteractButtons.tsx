@@ -3,7 +3,7 @@
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type Props ={
   quoteId: string
@@ -12,19 +12,56 @@ type Props ={
 const QuoteInteractButtons = ({quoteId, likes}: Props) => {
   const { data: session } = useSession();
   const [isLiked, setIsLiked] = useState(likes?.includes(session?.user?.id || false))
-  const [isBookmarked, setIsBookmarked] = useState(false)
-  const handleLike = async () => {
-    await axios.post(`/api/quote/${quoteId}/like`, {
-      userId: session?.user?.id
-    })
+  const [isBookmarked, setIsBookmarked] = useState<boolean>(false)
+  const [bookmarks, setBookmarks] = useState<string[]>([])
+  const [likesList, setLikesList] = useState<string[]>([])
 
+  useEffect(() => {
+    if (bookmarks?.includes(quoteId))
+      setIsBookmarked(true)
+    else 
+      setIsBookmarked(false)
+  }, [bookmarks, quoteId])
+
+  useEffect(() => {
+    if (likesList.includes(session?.user?.id))
+      setIsLiked(true)
+    else
+      setIsLiked(false)
+  }, [likesList, session])
+
+  useEffect(() => {
+    setBookmarks(session?.user?.bookmarks)
+  }, [session])
+
+  useEffect(() => {
+    setLikesList(likes)
+  }, [likes])
+ 
+  const handleLike = async () => {
+    try {
+      const { data } = await axios.post(`/api/quote/${quoteId}/like`, {
+        userId: session?.user?.id
+      })
+      setLikesList(data.likes)
+    } catch (error) {
+      console.log(error)
+    }
   }
+
+  const handleBookmark = async () => {
+    const {data} = await axios.post(`/api/user/bookmarks`, {
+      quoteId
+    })
+    setBookmarks(data?.bookmarks)
+  }
+
   return (
     <div className='flex-between '>
-      <div className='flex gap-2 items-center'>
+      <div className='flex gap-2 items-center cursor-pointer'>
         <Image
           src={
-            likes?.includes(session?.user?.id)
+            isLiked
               ? '/assets/icons/heart_filled.svg'
               : '/assets/icons/heart.svg'
           }
@@ -37,7 +74,7 @@ const QuoteInteractButtons = ({quoteId, likes}: Props) => {
           }
           }
         />
-        <p className='font-inter text-sm text-gray-600'>{likes?.length > 1 ? `${likes.length} Likes` : likes.length === 1 ?  '1 Like' : ''}</p>
+        <p className='font-inter text-sm text-gray-600'>{likesList?.length > 1 ? `${likesList.length} Likes` : likesList.length === 1 ?  '1 Like' : ''}</p>
       </div>
 
       <Image
@@ -49,7 +86,8 @@ const QuoteInteractButtons = ({quoteId, likes}: Props) => {
           alt='save button'
           width={25}
           height={25}
-          onClick= {() => setIsBookmarked((isBookmarked) => !isBookmarked)}
+          className='cursor-pointer'
+          onClick= {() => handleBookmark()}
         />
     </div>
   )

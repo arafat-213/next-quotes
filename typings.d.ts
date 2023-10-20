@@ -38,4 +38,5 @@ export interface ProfileProps {
   name: String
   desc: String
   data: Quote[]
+  isProfilePage?: boolean
 }

@@ -17,6 +17,7 @@ export const authOptions: NextAuthOptions = {
       // store the user id from mongoDB to session
       const user = await UserModel.findOne({ email: session.user.email })
       session.user.id = user._id.toString()
+      session.user.bookmarks = user.bookmarks
       return session
     },
 

@@ -15,6 +15,7 @@ const MyProfile = async () => {
       name='My Profile'
       desc='Welcome to your personalized profile page. Share your exceptional quotes and inspire others with the power of wisdom and words'
       data={data.quotes}
+      isProfilePage={true}
     />
   )
 }
