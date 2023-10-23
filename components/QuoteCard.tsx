@@ -11,10 +11,12 @@ import {useSession} from 'next-auth/react'
 
 const QuoteCard = ({
   quote,
-  isProfilePage = false
+  isProfilePage = false,
+  handleTagClick
 }: {
   quote: Quote
   isProfilePage?: boolean
+  handleTagClick: (tagName: string) => void
 }) => {
   const {data:session} = useSession()
   return (
@@ -50,7 +52,7 @@ const QuoteCard = ({
       </div>
       <p className='my-4 mt-1 font-satoshi italic'>{quote.quote}</p>
       <p className='blue_gradient cursor-pointer font-inter text-sm'>
-        {quote.tag}
+        {quote.tag?.split(' ').map((tag, i) => <span key={i} onClick={() => handleTagClick(tag)}>{tag}{' '}</span>)}
       </p>
       <div className='opacity-0 group-hover:opacity-100'>
         {isProfilePage && session?.user.id === quote.creator._id && (
