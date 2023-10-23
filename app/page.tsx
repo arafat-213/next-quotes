@@ -1,4 +1,4 @@
-import Feed from '@/components/Feed'
+import QuotesFeed from '@/components/QuotesFeed'
 import TypedText from '@/components/TypedText'
 
 export default async function Home() {  
@@ -15,7 +15,7 @@ export default async function Home() {
         <span className='font-semibold'>QuotOcean</span> is an open source
         Quotes pool for the world to explore, create, and share amazing quotes
       </p>
-      <Feed/>
+      <QuotesFeed />
     </section>
   )
 }

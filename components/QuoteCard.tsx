@@ -1,21 +1,22 @@
+'use client'
+
 import Image from 'next/image'
 import React from 'react'
 import CopyButton from './CopyButton'
-import { MySession, Quote } from '@/typings'
+import { Quote } from '@/typings'
 import Link from 'next/link'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import QuoteActionButtons from './QuoteActionButtons'
 import QuoteInteractButtons from './QuoteInteractButtons'
+import {useSession} from 'next-auth/react'
 
-const QuoteCard = async ({
+const QuoteCard = ({
   quote,
   isProfilePage = false
 }: {
   quote: Quote
   isProfilePage?: boolean
 }) => {
-  const session: MySession | null = await getServerSession(authOptions)
+  const {data:session} = useSession()
   return (
     <div className='quote_card group'>
       <div className='flex items-start justify-between gap-2'>

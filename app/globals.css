@@ -96,6 +96,10 @@
   @apply mt-5 max-w-2xl text-lg text-gray-600 sm:text-xl;
 }
 
+.search_input {
+  @apply block w-full rounded-md border border-gray-200 bg-white py-2.5 font-satoshi pl-5 pr-12 text-sm shadow-lg font-medium focus:border-blue-500 focus:outline-none focus:ring-0;
+}
+
 /* Buttons */
 .black_btn {
   @apply flex items-center justify-center rounded-full border border-black bg-black px-5 py-1.5 text-center font-inter text-sm text-white transition-all hover:bg-gray-600;
