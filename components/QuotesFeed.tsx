@@ -1,8 +1,9 @@
 'use client'
 import { Quote } from '@/typings'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import QuoteCard from './QuoteCard'
 import Image from 'next/image'
+import Typed from 'typed.js'
 
 const QuotesCardsList = ({
   data,
@@ -73,12 +74,31 @@ const QuotesFeed = () => {
     setSearchedResults(searchResult)
   }
 
+  const el = useRef(null)
+
+  useEffect(() => {
+    const typed = new Typed(el.current, {
+      strings: ['Search for user name', 'Search for quotes', 'Search for #hashtags'],
+      startDelay: 200,
+      typeSpeed: 20,
+      backSpeed: 20,
+      backDelay: 700,
+      loop: true,
+      attr: 'placeholder',
+      smartBackspace: true,
+    })
+
+    return () => {
+      typed.destroy()
+    }
+  }, [])
   return (
     <section className='feed'>
       <form className='flex-center relative w-full'>
         <input
           type='text'
           required
+          ref={el}
           className='block w-full rounded-md border border-gray-200 bg-white py-2.5 pl-5 pr-12 font-satoshi text-sm font-medium shadow-lg focus:border-blue-500 focus:outline-none focus:ring-0'
           placeholder='Search for a tag or a username'
           value={searchText}
