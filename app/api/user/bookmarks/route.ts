@@ -19,9 +19,13 @@ export const GET = async (request: NextRequest) => {
 
     const user = await User.findById(session?.user?.id).populate({
       path: 'bookmarks',
-      populate: {
-        path: 'creator'
-      }
+      populate: [{
+        path: 'creator',
+        select: ['_id', 'displayName', 'email', 'image']
+      }, {
+        path: 'likes',
+        select: ['_id', 'displayName', 'email', 'image']
+      }]
     })
     const bookmarkedQuotes = user.bookmarks
     return NextResponse.json(

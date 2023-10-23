@@ -8,7 +8,10 @@ export const GET = async (req: NextRequest) => {
         const quotes = await Quote.find({}).populate({
             path: 'creator',
             select: ['_id', 'displayName', 'email', 'image']
-        })
+        }).populate({
+            path: 'likes',
+            select: ['_id', 'displayName', 'email', 'image']
+        }) 
         return NextResponse.json({quotes}, {status: 200})
     } catch (error) {
         return NextResponse.json({ error: 'Failed to fetch quotes' }, {status: 500})

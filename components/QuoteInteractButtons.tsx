@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import AvatarList from './AvatarList'
 
 type Props ={
   quoteId: string
@@ -11,7 +12,7 @@ type Props ={
 }
 const QuoteInteractButtons = ({quoteId, likes}: Props) => {
   const { data: session } = useSession();
-  const [isLiked, setIsLiked] = useState(likes?.includes(session?.user?.id || false))
+  const [isLiked, setIsLiked] = useState(likes?.some(like => like._id === session?.user?.id))
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false)
   const [bookmarks, setBookmarks] = useState<string[]>([])
   const [likesList, setLikesList] = useState<string[]>([])
@@ -24,7 +25,7 @@ const QuoteInteractButtons = ({quoteId, likes}: Props) => {
   }, [bookmarks, quoteId])
 
   useEffect(() => {
-    if (likesList.includes(session?.user?.id))
+    if (likesList.some(like => like._id === session?.user?.id))
       setIsLiked(true)
     else
       setIsLiked(false)
@@ -74,6 +75,7 @@ const QuoteInteractButtons = ({quoteId, likes}: Props) => {
           }
           }
         />
+        <AvatarList avatars={likesList}/>
         <p className='font-inter text-sm text-gray-600'>{likesList?.length > 1 ? `${likesList.length} Likes` : likesList.length === 1 ?  '1 Like' : ''}</p>
       </div>
 

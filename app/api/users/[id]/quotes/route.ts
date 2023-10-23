@@ -8,7 +8,13 @@ export const GET = async (
 ) => {
   try {
     await connect()
-    const quotes = await Quote.find({ creator: params.id }).populate('creator')
+    const quotes = await Quote.find({ creator: params.id }).populate({
+      path: 'creator',
+      select: ['_id', 'displayName', 'email', 'image']  
+    }).populate({
+      path: 'likes',
+      select: ['_id', 'displayName', 'email', 'image']
+    })
     
     if (!quotes)
       return NextResponse.json({ error: 'Quotes not found' }, { status: 404 })
