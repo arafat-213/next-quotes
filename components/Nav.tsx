@@ -7,7 +7,6 @@ import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 
 const NavigationBar = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [providers, setProviders] = useState(null);
   const { data: session } = useSession();
 
@@ -83,7 +82,7 @@ const NavigationBar = () => {
         {session?.user ? (
           <div className='flex'>
             <Image
-              src='/assets/images/logo.svg'
+              src={session?.user?.image}
               width={37}
               height={37}
               className='cursor-pointer rounded-full'
@@ -100,11 +99,18 @@ const NavigationBar = () => {
                   My Profile
                 </Link>
                 <Link
-                  href='/create-prompt'
+                  href='/create'
                   className='dropdown_link'
                   onClick={() => setToggleDropdown(false)}
                 >
                   Create Prompt
+                </Link>
+                <Link
+                  href='/bookmarks'
+                  className='dropdown_link'
+                  onClick={() => setToggleDropdown(false)}
+                >
+                  My Bookmarks
                 </Link>
                 <button type='button' className='black_btn mt-5 w-full' onClick={() => signOut()}>
                   Sign Out
