@@ -5,7 +5,10 @@ import {connect} from '@/utils/database.util'
 export const GET = async (req: NextRequest) => {
     try {
         await connect()
-        const quotes = await Quote.find({}).populate('creator')
+        const quotes = await Quote.find({}).populate({
+            path: 'creator',
+            select: ['_id', 'displayName', 'email', 'image']
+        })
         return NextResponse.json({quotes}, {status: 200})
     } catch (error) {
         return NextResponse.json({ error: 'Failed to fetch quotes' }, {status: 500})
