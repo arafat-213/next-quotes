@@ -51,8 +51,8 @@ const QuoteCard = ({
         </div>
       </div>
       <p className='my-4 mt-1 font-satoshi italic'>{quote.quote}</p>
-      <p className='blue_gradient cursor-pointer font-inter text-sm'>
-        {quote.tag?.split(' ').map((tag, i) => <span key={i} onClick={() => handleTagClick(tag)}>{tag}{' '}</span>)}
+      <p className='blue_gradient cursor-pointer font-inter text-sm space-x-1'>
+        {quote.tag?.split(' ').map((tag, i) => <span key={i} className='tag' onClick={() => handleTagClick(tag)}>{tag}{' '}</span>)}
       </p>
       <div className='opacity-0 group-hover:opacity-100'>
         {isProfilePage && session?.user.id === quote.creator._id && (

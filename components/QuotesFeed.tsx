@@ -4,6 +4,7 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import QuoteCard from './QuoteCard'
 import Image from 'next/image'
 import Typed from 'typed.js'
+import TrendingTags from './TrendingTags'
 
 const QuotesCardsList = ({
   data,
@@ -26,6 +27,7 @@ const QuotesCardsList = ({
 }
 const QuotesFeed = () => {
   const [allQuotes, setAllQuotes] = useState<Quote[]>([])
+  const [trendingTags, setTrendingTags] = useState<string[]>([])
 
   // Search states
   const [searchText, setSearchText] = useState<string>('')
@@ -40,8 +42,15 @@ const QuotesFeed = () => {
     setAllQuotes(quotes)
   }
 
+  const fetchTags = async () => {
+    const res = await fetch('api/trending')
+    const { tags } = await res.json()
+    setTrendingTags(tags)
+  }
+
   useEffect(() => {
     fetchQuotes()
+    fetchTags()
   }, [])
 
   const filterQuotes = (searchtext: string) => {
@@ -119,6 +128,7 @@ const QuotesFeed = () => {
           </button>
         )}
       </form>
+      <TrendingTags tags={trendingTags} handleTagClick={handleTagClick}/>
       <QuotesCardsList
         data={searchText ? searchedResults : allQuotes}
         handleTagClick={handleTagClick}
