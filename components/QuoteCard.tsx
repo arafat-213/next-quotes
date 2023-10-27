@@ -16,7 +16,7 @@ const QuoteCard = ({
 }: {
   quote: Quote
   isProfilePage?: boolean
-  handleTagClick: (tagName: string) => void
+  handleTagClick?: (tagName: string) => void
 }) => {
   const {data:session} = useSession()
   return (
@@ -52,7 +52,7 @@ const QuoteCard = ({
       </div>
       <p className='my-4 mt-1 font-satoshi italic'>{quote.quote}</p>
       <p className='blue_gradient cursor-pointer font-inter text-sm space-x-1'>
-        {quote.tag?.split(' ').map((tag, i) => <span key={i} className='tag' onClick={() => handleTagClick(tag)}>{tag}{' '}</span>)}
+        {quote.tag?.split(' ').map((tag, i) => <span key={i} className='tag' onClick={() => !isProfilePage && handleTagClick(tag)}>{tag}{' '}</span>)}
       </p>
       <div className='opacity-0 group-hover:opacity-100'>
         {isProfilePage && session?.user.id === quote.creator._id && (

@@ -16,7 +16,8 @@ const UserProfile = async ({params, searchParams}: Props) => {
     <Profile
     name= {searchParams.name}
     desc = {`Welcome to ${searchParams.name.split(" ")[0]}'s profile page. Explore ${searchParams.name.split(" ")[0]}'s exceptional quotes and be inspired by the power of their words`}
-    data= {data.quotes} />
+    data= {data.quotes}
+    isProfilePage={true} />
   )
 }
 
