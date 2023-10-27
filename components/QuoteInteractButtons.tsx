@@ -7,70 +7,49 @@ import { useEffect, useState } from 'react'
 import AvatarList from './AvatarList'
 import toast from 'react-hot-toast'
 
-type Props ={
+type Props = {
   quoteId: string
   likes: [string]
+  handleLike: (quoteId: string, userId: string) => Promise<void>
 }
-const QuoteInteractButtons = ({quoteId, likes}: Props) => {
-  const { data: session } = useSession();
-  const [isLiked, setIsLiked] = useState(likes?.some(like => like._id === session?.user?.id))
+const QuoteInteractButtons = ({ quoteId, likes, handleLike }: Props) => {
+  const { data: session } = useSession()
+  const [isLiked, setIsLiked] = useState(
+    likes?.some((like) => like._id === session?.user?.id)
+  )
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false)
   const [bookmarks, setBookmarks] = useState<string[]>([])
-  const [likesList, setLikesList] = useState<string[]>([])
 
   useEffect(() => {
-    if (bookmarks?.includes(quoteId))
-      setIsBookmarked(true)
-    else 
-      setIsBookmarked(false)
+    if (bookmarks?.includes(quoteId)) setIsBookmarked(true)
+    else setIsBookmarked(false)
   }, [bookmarks, quoteId])
 
   useEffect(() => {
-    if (likesList.some(like => like._id === session?.user?.id))
-      setIsLiked(true)
-    else
-      setIsLiked(false)
-  }, [likesList, session])
+    if (likes.some((like) => like._id === session?.user?.id)) setIsLiked(true)
+    else setIsLiked(false)
+  }, [likes, session])
 
   useEffect(() => {
     setBookmarks(session?.user?.bookmarks)
   }, [session])
 
-  useEffect(() => {
-    setLikesList(likes)
-  }, [likes])
- 
-  const handleLike = async () => {
-    try {
-      const { data } = await axios.post(`/api/quote/${quoteId}/like`, {
-        userId: session?.user?.id
-      })
-      setLikesList(data.likes)
-    } catch (error) {
-      if (error.request.status === 403)
-        toast.error('You must be logged in to  perform this action')
-      else
-        toast.error('Something went wrong while performing this action')
-    }
-  }
-
   const handleBookmark = async () => {
     try {
-      const {data} = await axios.post(`/api/user/bookmarks`, {
+      const { data } = await axios.post(`/api/user/bookmarks`, {
         quoteId
       })
       setBookmarks(data?.bookmarks)
     } catch (error) {
       if (error.request.status === 403)
         toast.error('You must be logged in to  perform this action')
-      else
-        toast.error('Something went wrong while performing this action')
+      else toast.error('Something went wrong while performing this action')
     }
   }
 
   return (
     <div className='flex-between '>
-      <div className='flex gap-2 items-center cursor-pointer'>
+      <div className='flex cursor-pointer items-center gap-2'>
         <Image
           src={
             isLiked
@@ -80,27 +59,32 @@ const QuoteInteractButtons = ({quoteId, likes}: Props) => {
           alt='copy button'
           width={25}
           height={25}
-          onClick= {() => {
-            handleLike()
-          }
-          }
+          onClick={() => {
+            handleLike(quoteId, session?.user?.id)
+          }}
         />
-        <AvatarList avatars={likesList}/>
-        <p className='font-inter text-sm text-gray-600'>{likesList?.length > 1 ? `${likesList.length} Likes` : likesList.length === 1 ?  '1 Like' : ''}</p>
+        <AvatarList avatars={likes} />
+        <p className='font-inter text-sm text-gray-600'>
+          {likes?.length > 1
+            ? `${likes.length} Likes`
+            : likes.length === 1
+            ? '1 Like'
+            : ''}
+        </p>
       </div>
 
       <Image
-          src={
-            isBookmarked
-              ? '/assets/icons/bookmark_filled.svg'
-              : '/assets/icons/bookmark.svg'
-          }
-          alt='save button'
-          width={25}
-          height={25}
-          className='cursor-pointer'
-          onClick= {() => handleBookmark()}
-        />
+        src={
+          isBookmarked
+            ? '/assets/icons/bookmark_filled.svg'
+            : '/assets/icons/bookmark.svg'
+        }
+        alt='save button'
+        width={25}
+        height={25}
+        className='cursor-pointer'
+        onClick={() => handleBookmark()}
+      />
     </div>
   )
 }

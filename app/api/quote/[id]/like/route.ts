@@ -32,12 +32,15 @@ export const POST = async (
       // return NextResponse.json({ likes: quote.likes }, { status: 200 })
     }
 
-    quote = await quote.populate({
+    quote = await quote.populate([{
       path: 'likes',
       select: ['_id', 'displayName', 'email', 'image']
-    })
+    }, {
+      path: 'creator',
+      select: ['_id', 'displayName', 'email', 'image']
+    }])
 
-    return NextResponse.json({ likes: quote.likes }, { status: 200 })
+    return NextResponse.json({ quote }, { status: 200 })
 
   } catch (error) {
     console.log(error)

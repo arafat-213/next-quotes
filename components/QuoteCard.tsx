@@ -12,11 +12,13 @@ import {useSession} from 'next-auth/react'
 const QuoteCard = ({
   quote,
   isProfilePage = false,
-  handleTagClick
+  handleTagClick,
+  handleLike
 }: {
   quote: Quote
   isProfilePage?: boolean
   handleTagClick?: (tagName: string) => void
+  handleLike: (quoteId: string, userId: string) => Promise<void>
 }) => {
   const {data:session} = useSession()
   return (
@@ -60,7 +62,7 @@ const QuoteCard = ({
         )}
       </div>
       <div className='mt-4'>
-      <QuoteInteractButtons quoteId={quote._id} likes={quote?.likes}/>
+      <QuoteInteractButtons quoteId={quote._id} likes={quote?.likes} handleLike={handleLike}/>
       </div>
     </div>
   )

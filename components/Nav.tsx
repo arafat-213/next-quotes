@@ -2,13 +2,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { signIn, signOut, useSession, getProviders } from "next-auth/react";
-
+import { signIn, signOut, useSession, getProviders, LiteralUnion, ClientSafeProvider } from "next-auth/react";
+import { BuiltInProviderType } from 'next-auth/providers/index'
 
 const NavigationBar = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false)
-  const [providers, setProviders] = useState(null);
-  const { data: session } = useSession();
+  const [providers, setProviders] = useState<Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> | null>(null);
+  const { data: session }  = useSession();
 
   useEffect(() => {
     (async () => {
