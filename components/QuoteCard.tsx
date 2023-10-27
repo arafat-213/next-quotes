@@ -62,9 +62,9 @@ const QuoteCard = ({
             className='rounded-full object-contain'
           />
           <div className='flex flex-col'>
-            <h3 className='text-gray-90 font-satoshi font-semibold'>
+            <h2 className='text-gray-90 font-satoshi font-semibold'>
               {quote.creator.displayName}
-            </h3>
+            </h2>
             <p className='font-inter text-sm text-gray-500'>
               {quote.creator.email}
             </p>
