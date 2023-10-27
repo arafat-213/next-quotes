@@ -1,11 +1,11 @@
 import UserModel from '@/models/user.model'
 import { MyProfile, MySession } from '@/typings'
 import { connect } from '@/utils/database.util'
-import NextAuth, { User, Account, Profile, Session, NextAuthOptions } from 'next-auth'
+import NextAuth from 'next-auth'
 import { AdapterUser } from 'next-auth/adapters'
 import GoogleProvider from 'next-auth/providers/google'
 
-export const authOptions: NextAuthOptions = {
+export const authOptions : any = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -13,7 +13,7 @@ export const authOptions: NextAuthOptions = {
     })
   ],
   callbacks: {
-    async session({ session }: { session: MySession }) {
+    async session({ session }: { session: any }) {
       // store the user id from mongoDB to session
       const user = await UserModel.findOne({ email: session.user.email })
       session.user.id = user._id.toString()
@@ -26,9 +26,9 @@ export const authOptions: NextAuthOptions = {
       account,
       profile
     }: {
-        user: User | AdapterUser;
-        account: Account | null;
-        profile: MyProfile;
+        user?: any;
+        account?: any;
+        profile?: any;
     }): Promise<boolean> {
       try {
         await connect()

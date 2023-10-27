@@ -3,8 +3,8 @@ import { Quote } from '@/typings'
 import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import QuoteCard from './QuoteCard'
 import Image from 'next/image'
-import Typed from 'typed.js'
 import TrendingTags from './TrendingTags'
+const Typed = require('typed.js')
 
 
 const QuotesCardsList = ({
@@ -14,7 +14,6 @@ const QuotesCardsList = ({
 }: {
   allQuotes: Quote[]
   handleTagClick: (tagName: string) => void
-  handleLike: (quoteId: string, userId: string) => Promise<void>
   setAllQuotes: Dispatch<SetStateAction<Quote[]>>
 }) => {
   return (

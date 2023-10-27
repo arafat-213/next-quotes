@@ -22,7 +22,7 @@ const QuoteCard = ({
   handleTagClick?: (tagName: string) => void
   setAllQuotes: Dispatch<SetStateAction<Quote[]>>
 }) => {
-  const {data:session} = useSession()
+  const {data: session} : {data: any} = useSession()
 
   const handleLike = async (quoteId: string, userId: string) => {
     try {
@@ -36,7 +36,7 @@ const QuoteCard = ({
         })
         return updatedQuotes
       })
-    } catch (error) {
+    } catch (error: any) {
       if (error.request.status === 403)
         toast.error('You must be logged in to  perform this action')
       else
@@ -49,7 +49,7 @@ const QuoteCard = ({
         <Link
           className='flex flex-1 cursor-pointer items-center justify-start gap-3'
           href={
-            session?.user.id === quote.creator._id
+            session?.user!.id === quote.creator._id
               ? '/profile'
               : `/profile/${quote?.creator._id}?name=${quote?.creator.displayName}`
           }
@@ -76,7 +76,7 @@ const QuoteCard = ({
       </div>
       <p className='my-4 mt-1 font-satoshi italic'>{quote.quote}</p>
       <p className='blue_gradient cursor-pointer font-inter text-sm space-x-1'>
-        {quote.tag?.split(' ').map((tag, i) => <span key={i} className='tag' onClick={() => !isProfilePage && handleTagClick(tag)}>{tag}{' '}</span>)}
+        {quote.tag?.split(' ').map((tag, i) => <span key={i} className='tag' onClick={() => handleTagClick && handleTagClick(tag)}>{tag}{' '}</span>)}
       </p>
       <div className='opacity-0 group-hover:opacity-100'>
         {isProfilePage && session?.user.id === quote.creator._id && (

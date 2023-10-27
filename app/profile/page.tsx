@@ -1,6 +1,6 @@
 'use client'
 import Profile from '@/components/Profile'
-import { Quote } from '@/typings'
+import { MySession, Quote } from '@/typings'
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import toast from 'react-hot-toast'
@@ -8,7 +8,7 @@ import toast from 'react-hot-toast'
 const MyProfile = () => {
   
   const [allQuotes, setAllQuotes] = useState<Quote[]>([])
-  const {data:session} = useSession()
+  const {data:session} : {data: any}= useSession();
 
   const fetchQuotes = async () => {
     try {

@@ -6,14 +6,15 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import AvatarList from './AvatarList'
 import toast from 'react-hot-toast'
+import { Creator } from '@/typings'
 
 type Props = {
   quoteId: string
-  likes: [string]
+  likes: [Creator]
   handleLike: (quoteId: string, userId: string) => Promise<void>
 }
 const QuoteInteractButtons = ({ quoteId, likes, handleLike }: Props) => {
-  let { data: session , update} = useSession()
+  let { data: session , update} : {data: any, update: any} = useSession()
   const [isLiked, setIsLiked] = useState(
     likes?.some((like) => like._id === session?.user?.id)
   )
@@ -42,7 +43,7 @@ const QuoteInteractButtons = ({ quoteId, likes, handleLike }: Props) => {
       setBookmarks(data?.bookmarks)
       // updates the session.user.bookmarks
       update()
-    } catch (error) {
+    } catch (error : any) {
       if (error?.request?.status === 403)
         toast.error('You must be logged in to  perform this action')
       else toast.error('Something went wrong while performing this action')

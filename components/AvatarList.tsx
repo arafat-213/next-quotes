@@ -2,10 +2,13 @@ import React from "react";
 import classNames from "classnames";
 import Image from "next/image"
 
-const AvatarList = ({ avatars }) => {
+type Avatar = {
+  image: string
+}
+const AvatarList = ({ avatars } : {avatars: [Avatar]}) => {
   return (
     <div className="flex items-center">
-      {avatars?.slice(0,3)?.map((avatar, index) => (
+      {avatars?.slice(0,3)?.map((avatar: Avatar, index:  React.Key) => (
         <Image
           key={index}
           src={avatar.image}

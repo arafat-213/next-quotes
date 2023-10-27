@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation'
 import axios from 'axios'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import { Quote } from '@/typings'
+import { MySession, Quote } from '@/typings'
 
 type FormProps = {
   type: String
@@ -14,7 +14,7 @@ const QuoteForm = ({ type, quote }: FormProps) => {
   const submitAction = async (formData: FormData) => {
     'use server'
     try {
-      const session = await getServerSession(authOptions)
+      const session : MySession | null = await getServerSession(authOptions)
       if (type === 'Edit' && quote) {
         // update form
         await axios.patch(`${process.env.HOSTNAME}/api/quote/${quote?._id}`, {

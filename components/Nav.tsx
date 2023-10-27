@@ -8,7 +8,7 @@ import { BuiltInProviderType } from 'next-auth/providers/index'
 const NavigationBar = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false)
   const [providers, setProviders] = useState<Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> | null>(null);
-  const { data: session }  = useSession();
+  const { data: session } : {data: any} = useSession();
 
   useEffect(() => {
     (async () => {
