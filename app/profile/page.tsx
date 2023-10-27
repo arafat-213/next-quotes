@@ -23,7 +23,7 @@ const MyProfile = () => {
   }
   useEffect(() => {
     fetchQuotes()
-  }, [])
+  }, [session])
   
   return (
     <Profile
