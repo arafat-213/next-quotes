@@ -20,6 +20,7 @@
     "next-auth": "^4.23.2",
     "react": "^18",
     "react-dom": "^18",
+    "react-hot-toast": "^2.4.1",
     "typed.js": "^2.0.16"
   },
   "devDependencies": {

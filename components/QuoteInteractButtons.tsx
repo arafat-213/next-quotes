@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import AvatarList from './AvatarList'
+import toast from 'react-hot-toast'
 
 type Props ={
   quoteId: string
@@ -46,15 +47,25 @@ const QuoteInteractButtons = ({quoteId, likes}: Props) => {
       })
       setLikesList(data.likes)
     } catch (error) {
-      console.log(error)
+      if (error.request.status === 403)
+        toast.error('You must be logged in to  perform this action')
+      else
+        toast.error('Something went wrong while performing this action')
     }
   }
 
   const handleBookmark = async () => {
-    const {data} = await axios.post(`/api/user/bookmarks`, {
-      quoteId
-    })
-    setBookmarks(data?.bookmarks)
+    try {
+      const {data} = await axios.post(`/api/user/bookmarks`, {
+        quoteId
+      })
+      setBookmarks(data?.bookmarks)
+    } catch (error) {
+      if (error.request.status === 403)
+        toast.error('You must be logged in to  perform this action')
+      else
+        toast.error('Something went wrong while performing this action')
+    }
   }
 
   return (
@@ -70,7 +81,6 @@ const QuoteInteractButtons = ({quoteId, likes}: Props) => {
           width={25}
           height={25}
           onClick= {() => {
-            setIsLiked((isLiked) => !isLiked)
             handleLike()
           }
           }
