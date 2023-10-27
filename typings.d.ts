@@ -37,6 +37,7 @@ export interface MyProviderProps {
 export interface ProfileProps {
   name: String
   desc: String
-  data: Quote[]
+  allQuotes: Quote[]
+  setAllQuotes: Dispatch<SetStateAction<Quote[]>>
   isProfilePage?: boolean
 }

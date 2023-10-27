@@ -1,30 +1,30 @@
 'use client'
 import { Quote } from '@/typings'
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import QuoteCard from './QuoteCard'
 import Image from 'next/image'
 import Typed from 'typed.js'
 import TrendingTags from './TrendingTags'
-import axios from 'axios'
-import toast from 'react-hot-toast'
+
 
 const QuotesCardsList = ({
-  data,
   handleTagClick,
-  handleLike
+  setAllQuotes,
+  allQuotes
 }: {
-  data: Quote[]
+  allQuotes: Quote[]
   handleTagClick: (tagName: string) => void
   handleLike: (quoteId: string, userId: string) => Promise<void>
+  setAllQuotes: Dispatch<SetStateAction<Quote[]>>
 }) => {
   return (
     <div className='quote_layout mt-16'>
-      {data?.map((quote: Quote) => (
+      {allQuotes?.map((quote: Quote) => (
         <QuoteCard
           quote={quote}
           key={quote._id}
           handleTagClick={handleTagClick}
-          handleLike={handleLike}
+          setAllQuotes={setAllQuotes}
         />
       ))}
     </div>
@@ -88,27 +88,6 @@ const QuotesFeed = () => {
     setSearchedResults(searchResult)
   }
 
-  const handleLike = async (quoteId: string, userId: string) => {
-    try {
-      const { data } = await axios.post(`/api/quote/${quoteId}/like`, {
-        userId
-      })
-      console.log()
-      setAllQuotes(allQuotes => {
-        const updatedQuotes = allQuotes.map((quote: Quote) => {
-          if (quote._id === quoteId) return data.quote
-          return quote
-        })
-        return updatedQuotes
-      })
-    } catch (error) {
-      if (error.request.status === 403)
-        toast.error('You must be logged in to  perform this action')
-      else
-        toast.error('Something went wrong while performing this action')
-    }
-  }
-
   const el = useRef(null)
 
   useEffect(() => {
@@ -158,7 +137,8 @@ const QuotesFeed = () => {
       <QuotesCardsList
         data={searchText ? searchedResults : allQuotes}
         handleTagClick={handleTagClick}
-        handleLike={handleLike}
+        setAllQuotes={setAllQuotes}
+        allQuotes={allQuotes}
       />
     </section>
   )
