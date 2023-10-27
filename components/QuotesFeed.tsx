@@ -135,10 +135,9 @@ const QuotesFeed = () => {
       </form>
       <TrendingTags tags={trendingTags} handleTagClick={handleTagClick}/>
       <QuotesCardsList
-        data={searchText ? searchedResults : allQuotes}
         handleTagClick={handleTagClick}
         setAllQuotes={setAllQuotes}
-        allQuotes={allQuotes}
+        allQuotes={searchText ? searchedResults : allQuotes}
       />
     </section>
   )
